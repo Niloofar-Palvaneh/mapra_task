@@ -52,7 +52,7 @@ const Home = () => {
       {
         users.length ? (
           <div className='w-full flex items-center justify-center'>
-            <div className=' w-[80%] bg-green-200 mt-12 p-12 rounded-xl shadow-md'>
+            <div className=' w-[90%] bg-green-200 mt-12 p-12 rounded-xl shadow-md'>
               <div className='flex items-center justify-between'>
                 <h1 className='text-center font-bold text-2xl m-4'>لیست کاربران</h1>
                 <Link href={"/addUser"}>
