@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@font-face {
+  font-family: "mikhak_ttf";
+  src: url(./../../fonts/Mikhak-DS2-Medium.ttf);
+}
+
+@font-face {
+  font-family: "mikhak_woff2";
+  src: url(./../../fonts/Mikhak-DS2-Medium.woff2);
+}
+
+body {
+  font-family: 'mikhak_ttf', 'mikhak_woff2' !important;
+  direction: rtl;
+}
