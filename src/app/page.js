@@ -1,6 +1,8 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
+import Loader from '../../components/Loader';
+import Link from 'next/link';
 
 const Home = () => {
   const [users, setUsers] = useState([]);
@@ -46,27 +48,55 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <h1>لیست کاربران</h1>
-      <ul>
-        {users.map(user => (
-          <li key={user.id}>
-            <span>{user.name} - {user.email}</span>
-            <label>
-              <input
-                type="checkbox"
-                checked={selectedUsers.includes(user.id)}
-                onChange={() => handleCheckboxChange(user.id)}
-              />
-              انتخاب
-            </label>
-          </li>
-        ))}
-      </ul>
-      <button onClick={downloadUsers} disabled={selectedUsers.length === 0}>
-        دانلود کاربران انتخاب شده
-      </button>
-    </div>
+    <>
+      {
+        users.length ? (
+          <div className='w-full flex items-center justify-center'>
+            <div className=' w-[80%] bg-green-200 mt-12 p-12 rounded-xl shadow-md'>
+              <div className='flex items-center justify-between'>
+                <h1 className='text-center font-bold text-2xl m-4'>لیست کاربران</h1>
+                <Link href={"/addUser"}>
+                  رفتن به صفحه افزودن کاربر
+                </Link>
+                <button onClick={downloadUsers} disabled={selectedUsers.length === 0}
+                  className={`bg-green-900 text-white px-4 py-1 rounded shadow  ${selectedUsers.length === 0 ? "opacity-50" : "opacity-100 cursor-pointer"}`}>
+                  دانلود کاربران انتخاب شده
+                </button>
+              </div>
+              <ul className='grid grid-cols-2 gap-4'>
+                {users.map(user => (
+                  <li key={user.id} className='bg-white border p-2 rounded w-full'>
+                    <label className='my-4'>
+                      <input
+                        className=''
+                        type="checkbox"
+                        checked={selectedUsers.includes(user.id)}
+                        onChange={() => handleCheckboxChange(user.id)}
+                      />
+                      انتخاب کاربر
+                    </label>
+                    <div>
+                      <span className=' text-gray-800'> کاربر شماره :</span>
+                      <span className='text-green-900 font-bold'> {user.id}</span>
+                    </div>
+                    <div>
+                      <span className=' text-gray-800'> نام کاربر  :</span>
+                      <span className='text-green-900 font-bold'> {user.name} </span>
+                    </div>
+                    <div>
+                      <span className=' text-gray-800'> ایمیل کاربر  :</span>
+                      <span className='text-green-900 font-bold'> {user.email} </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+            </div>
+          </div>
+        ) : <Loader />
+      }
+
+    </>
   );
 };
 
