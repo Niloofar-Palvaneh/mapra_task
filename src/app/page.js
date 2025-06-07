@@ -7,29 +7,35 @@ import Link from 'next/link';
 const Home = () => {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
-    // بارگذاری کاربران از API فیک
     const fetchUsers = async () => {
-      const response = await fetch('https://jsonplaceholder.typicode.com/users');
-      const data = await response.json();
-      setUsers(data);
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        if (!response.ok) {
+          throw new Error('خطا در بارگذاری داده‌ها'); 
+        }
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        setError(error.message); 
+      }
     };
 
     fetchUsers();
 
-    // بارگذاری وضعیت چک باکس‌ها از localStorage
     const savedSelections = JSON.parse(localStorage.getItem('selectedUsers')) || [];
     setSelectedUsers(savedSelections);
   }, []);
 
   const handleCheckboxChange = (userId) => {
     const newSelection = selectedUsers.includes(userId)
-      ? selectedUsers.filter(id => id !== userId) // لغو انتخاب
-      : [...selectedUsers, userId]; // انتخاب جدید
+      ? selectedUsers.filter(id => id !== userId)
+      : [...selectedUsers, userId];
 
     setSelectedUsers(newSelection);
-    localStorage.setItem('selectedUsers', JSON.stringify(newSelection)); // ذخیره در localStorage
+    localStorage.setItem('selectedUsers', JSON.stringify(newSelection)); 
   };
 
   const downloadUsers = () => {
@@ -44,11 +50,13 @@ const Home = () => {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url); // آزاد کردن URL
+    URL.revokeObjectURL(url); 
   };
 
   return (
     <>
+      {error && <div className="text-red-500 text-center">{error}</div>} 
+
       {
         users.length ? (
           <div className='w-full flex items-center justify-center'>
@@ -90,12 +98,10 @@ const Home = () => {
                   </li>
                 ))}
               </ul>
-
             </div>
           </div>
         ) : <Loader />
       }
-
     </>
   );
 };
