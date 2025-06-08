@@ -29,7 +29,7 @@ function MoreInfo() {
                         <div className='flex gap-2 mt-2'>
                             <p className='text-red-500 font-bold'>نکته:</p>
                             <p>
-                              کاربرایی که انتخاب میشن تو localStorage ذخیره میشن تا با رفرش صفحه نپرن!
+                                کاربرایی که انتخاب میشن تو localStorage ذخیره میشن تا با رفرش صفحه نپرن!
                             </p>
                         </div>
                     </div>
@@ -44,6 +44,21 @@ function MoreInfo() {
                             <p className='text-red-500 font-bold'>نکته:</p>
                             <p>
                                 این لیست کاربرا به لیستی که تو صفحه اول هست هیچگونه ارتباطی نداره. این local هستش ولی اون از یک api گرفته میشه
+                            </p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className='flex flex-col'>
+                            <p className='text-green-600 font-bold'>مورد چهارم:</p>
+                            <p>
+                                تو صفحه اول اون پایین یه لینک هست با عنوان "تبدیل فایل" که تو اون صفحه میتونید فایل اکسل رو انتخاب کنید و json اطلاعات رو تو کنسول ببینید
+                            </p>
+                        </div>
+                        <div className='flex gap-2 mt-2'>
+                            <p className='text-red-500 font-bold'>نکته:</p>
+                            <p>
+                                من واسه این کار از  کتابخانه‌های xlsx و papaparse استفاده کردم. بدون استفاده از کتابخانه هم میشه اینکارو کرد ولی یه مقدار پیچیده تر میشه
                             </p>
                         </div>
                     </div>
