@@ -7,7 +7,7 @@ import Link from 'next/link';
 const Home = () => {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 2;  // تعداد آیتم‌ها در هر صفحه
 
@@ -16,12 +16,12 @@ const Home = () => {
       try {
         const response = await fetch('https://jsonplaceholder.typicode.com/users');
         if (!response.ok) {
-          throw new Error('خطا در بارگذاری داده‌ها'); 
+          throw new Error('خطا در بارگذاری داده‌ها');
         }
         const data = await response.json();
         setUsers(data);
       } catch (error) {
-        setError(error.message); 
+        setError(error.message);
       }
     };
 
@@ -37,7 +37,7 @@ const Home = () => {
       : [...selectedUsers, userId];
 
     setSelectedUsers(newSelection);
-    localStorage.setItem('selectedUsers', JSON.stringify(newSelection)); 
+    localStorage.setItem('selectedUsers', JSON.stringify(newSelection));
   };
 
   const downloadUsers = () => {
@@ -52,7 +52,7 @@ const Home = () => {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url); 
+    URL.revokeObjectURL(url);
   };
 
   // محاسبه ایندکس شروع و پایان آیتم‌های در حال نمایش
@@ -71,11 +71,11 @@ const Home = () => {
 
   return (
     <>
-      {error && <div className="text-red-500 text-center">{error}</div>} 
+      {error && <div className="text-red-500 text-center">{error}</div>}
 
       {
         users.length ? (
-          <div className='w-full flex items-center justify-center'>
+          <div className='w-full flex items-center justify-center relative'>
             <div className='w-[90%] bg-green-200 mt-12 p-12 rounded-xl shadow-md'>
               <div className='flex items-center justify-between'>
                 <h1 className='text-center font-bold text-2xl m-4'>لیست کاربران</h1>
@@ -122,6 +122,7 @@ const Home = () => {
                 ))}
               </div>
             </div>
+            <Link className=' underline px-2 py-1 rounded absolute bottom-0 left-24' href={"/moreInfo"}>مشاهده توضیحات</Link>
           </div>
         ) : <Loader />
       }
