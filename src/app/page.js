@@ -122,7 +122,10 @@ const Home = () => {
                 ))}
               </div>
             </div>
-            <Link className=' underline px-2 py-1 rounded absolute bottom-0 left-24' href={"/moreInfo"}>مشاهده توضیحات</Link>
+            <div className='flex absolute bottom-0 left-24'>
+              <Link className=' underline px-2 py-1 rounded ' href={"/moreInfo"}>مشاهده توضیحات</Link>
+              <Link className=' underline px-2 py-1 rounded ' href={"/convertFile"}>تبدیل فایل</Link>
+            </div>
           </div>
         ) : <Loader />
       }
