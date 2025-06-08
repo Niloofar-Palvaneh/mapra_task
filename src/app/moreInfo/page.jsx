@@ -26,6 +26,12 @@ function MoreInfo() {
                                 یه دکمه داریم بالای لیست کاربرا که اگه کاربر یا کاربرهایی رو انتخاب کنید اون دکمه فعال میشه و میتونید فایل json اون کاربرایی که انتخاب کردین رو دانلود کنید.
                             </p>
                         </div>
+                        <div className='flex gap-2 mt-2'>
+                            <p className='text-red-500 font-bold'>نکته:</p>
+                            <p>
+                              کاربرایی که انتخاب میشن تو localStorage ذخیره میشن تا با رفرش صفحه نپرن!
+                            </p>
+                        </div>
                     </div>
                     <div>
                         <div className='flex flex-col'>
