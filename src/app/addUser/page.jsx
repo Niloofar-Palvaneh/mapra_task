@@ -1,16 +1,17 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 const AddUser = () => {
     const [preview, setPreview] = useState(null);
+    const [userList, setUserList] = useState([]); // لیست کاربران
 
     const initialValues = {
         firstName: '',
         lastName: '',
         email: '',
-        profilePicture: null, 
+        profilePicture: null,
     };
 
     const validationSchema = Yup.object({
@@ -30,8 +31,12 @@ const AddUser = () => {
             }),
     });
 
-    const onSubmit = (values) => {
+    const onSubmit = (values, { resetForm }) => {
+        // افزودن کاربر جدید به لیست
+        setUserList([...userList, values]);
         console.log('فرم ارسال شد:', values);
+        resetForm(); // ریست کردن فرم بعد از ارسال
+        setPreview(null); // پاک کردن پیش‌نمایش بعد از ارسال
     };
 
     const handleFileChange = (event, setFieldValue) => {
@@ -44,13 +49,13 @@ const AddUser = () => {
         if (file) {
             reader.readAsDataURL(file);
         } else {
-            setPreview(null); 
+            setPreview(null);
         }
     };
 
     return (
         <div className='w-full flex items-center justify-center'>
-            <div className=' w-[90%] bg-green-200 mt-12 p-12 rounded-xl shadow-md'>
+            <div className='w-[90%] bg-green-200 mt-12 p-12 rounded-xl shadow-md'>
                 <h1 className='text-center font-bold text-2xl mb-8'>فرم اطلاعات کاربر</h1>
                 <Formik
                     initialValues={initialValues}
@@ -58,7 +63,7 @@ const AddUser = () => {
                     onSubmit={onSubmit}
                 >
                     {({ setFieldValue }) => (
-                        <Form >
+                        <Form>
                             <div className='w-full grid grid-cols-4 gap-2'>
                                 <div className='flex gap-2 '>
                                     <label className='font-bold' htmlFor="firstName">نام:</label>
@@ -90,7 +95,7 @@ const AddUser = () => {
                                             accept="image/jpeg, image/png"
                                             onChange={(event) => handleFileChange(event, setFieldValue)}
                                         />
-                                        <ErrorMessage name="profilePicture" component="div" />
+                                        <ErrorMessage name="profilePicture" component="div" className='text-red-500 ' />
                                     </div>
                                     {preview && (
                                         <div className="absolute left-0">
@@ -105,6 +110,35 @@ const AddUser = () => {
                         </Form>
                     )}
                 </Formik>
+                <div className='mt-12'>
+                    <h2 className='text-center font-bold text-xl'>لیست کاربران:</h2>
+                    {
+                        userList.length ? (
+                            <table className='mt-4 w-full border-collapse'>
+                                <thead>
+                                    <tr className='bg-green-300'>
+                                        <th className='border px-4 py-2'>تصویر پروفایل</th>
+                                        <th className='border px-4 py-2'>نام</th>
+                                        <th className='border px-4 py-2'>نام خانوادگی</th>
+                                        <th className='border px-4 py-2'>ایمیل</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {userList.map((user, index) => (
+                                        <tr key={index} className='border-b'>
+                                            <td className='border px-4 py-2 text-center'>
+                                                <img src={URL.createObjectURL(user.profilePicture)} alt="پروفایل" className='w-8 h-8 rounded-full inline-block' />
+                                            </td>
+                                            <td className='border px-4 py-2 text-center'>{user.firstName}</td>
+                                            <td className='border px-4 py-2 text-center'>{user.lastName}</td>
+                                            <td className='border px-4 py-2 text-center'>{user.email}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        ) : <p className='text-center text-red-500'>کاربری برای نمایش وجود ندارد</p>
+                    }
+                </div>
             </div>
         </div>
     );
