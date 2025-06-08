@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from 'react';
 import Loader from '../../components/Loader';
@@ -8,6 +8,8 @@ const Home = () => {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [error, setError] = useState(null); 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 2;  // تعداد آیتم‌ها در هر صفحه
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -53,6 +55,20 @@ const Home = () => {
     URL.revokeObjectURL(url); 
   };
 
+  // محاسبه ایندکس شروع و پایان آیتم‌های در حال نمایش
+  const indexOfLastUser = currentPage * itemsPerPage;
+  const indexOfFirstUser = indexOfLastUser - itemsPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  // تابع تغییر صفحه
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // محاسبه تعداد کل صفحات
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(users.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <>
       {error && <div className="text-red-500 text-center">{error}</div>} 
@@ -60,7 +76,7 @@ const Home = () => {
       {
         users.length ? (
           <div className='w-full flex items-center justify-center'>
-            <div className=' w-[90%] bg-green-200 mt-12 p-12 rounded-xl shadow-md'>
+            <div className='w-[90%] bg-green-200 mt-12 p-12 rounded-xl shadow-md'>
               <div className='flex items-center justify-between'>
                 <h1 className='text-center font-bold text-2xl m-4'>لیست کاربران</h1>
                 <Link href={"/addUser"}>
@@ -72,7 +88,7 @@ const Home = () => {
                 </button>
               </div>
               <ul className='grid grid-cols-2 gap-4'>
-                {users.map(user => (
+                {currentUsers.map(user => (
                   <li key={user.id} className='bg-white border p-2 rounded w-full'>
                     <label className='my-4'>
                       <input
@@ -84,20 +100,27 @@ const Home = () => {
                       انتخاب کاربر
                     </label>
                     <div>
-                      <span className=' text-gray-800'> کاربر شماره :</span>
+                      <span className='text-gray-800'> کاربر شماره :</span>
                       <span className='text-green-900 font-bold'> {user.id}</span>
                     </div>
                     <div>
-                      <span className=' text-gray-800'> نام کاربر  :</span>
+                      <span className='text-gray-800'> نام کاربر  :</span>
                       <span className='text-green-900 font-bold'> {user.name} </span>
                     </div>
                     <div>
-                      <span className=' text-gray-800'> ایمیل کاربر  :</span>
+                      <span className='text-gray-800'> ایمیل کاربر  :</span>
                       <span className='text-green-900 font-bold'> {user.email} </span>
                     </div>
                   </li>
                 ))}
               </ul>
+              <div className='flex justify-center mt-4'>
+                {pageNumbers.map(number => (
+                  <button key={number} onClick={() => paginate(number)} className={`mx-2 px-4 py-2 rounded ${currentPage === number ? 'bg-green-900 text-white' : 'bg-gray-200 text-black'}`}>
+                    {number}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         ) : <Loader />
